@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Fritti Misti 2026/2027</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--vd:#155724;--vm:#1e7a33;--vc:#27a045;--oro:#c9a84c;--orc:#e8c96e;--gs:#1c1c1c;--ros:#b91c1c;--blu:#1a4fa0}
+html,body{font-family:'Barlow',sans-serif;background:#e8ede8;overflow-x:hidden}
+.panel{display:none}
+
+#tab-basi:checked   ~ .wrap #p-basi,
+#tab-parti:checked  ~ .wrap #p-parti,
+#tab-aste:checked   ~ .wrap #p-aste,
+#tab-punti:checked  ~ .wrap #p-punti,
+#tab-comp:checked   ~ .wrap #p-comp,
+#tab-regole:checked ~ .wrap #p-regole,
+#tab-premi:checked  ~ .wrap #p-premi,
+#tab-albo:checked   ~ .wrap #p-albo{display:block}
+
+#tab-basi:checked   ~ .wrap .tl-basi,
+#tab-parti:checked  ~ .wrap .tl-parti,
+#tab-aste:checked   ~ .wrap .tl-aste,
+#tab-punti:checked  ~ .wrap .tl-punti,
+#tab-comp:checked   ~ .wrap .tl-comp,
+#tab-regole:checked ~ .wrap .tl-regole,
+#tab-premi:checked  ~ .wrap .tl-premi,
+#tab-albo:checked   ~ .wrap .tl-albo{color:var(--orc);border-bottom-color:var(--orc)}
+
+input[type=radio]{display:none}
+
+/* ACCORDION */
+.acc-cb{display:none}
+.acc-head{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;cursor:pointer;user-select:none}
+.acc-arrow{font-size:11px;transition:transform .2s;display:inline-block;color:rgba(255,255,255,0.7)}
+.acc-body{display:none;background:rgba(255,255,255,0.95);padding:9px 11px}
+.acc-cb:checked ~ .acc-head .acc-arrow{transform:rotate(90deg)}
+.acc-cb:checked ~ .acc-body{display:block}
+
+.w{max-width:600px;margin:0 auto;background:#e8ede8;min-height:100vh}
+
+.hero{background:var(--vd);position:relative;overflow:hidden;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:2;padding:1rem 1rem 0}
+.hero-eye{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--orc);margin-bottom:5px}
+.hero-row{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.hero-title{font-family:'Barlow Condensed',sans-serif;font-size:34px;font-weight:700;color:#fff;letter-spacing:1px;line-height:1}
+.hero-title span{color:var(--orc)}
+.hero-sub{font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:2px;text-transform:uppercase;margin-top:4px;font-family:'Barlow Condensed',sans-serif}
+.hero-pill{display:inline-block;background:var(--oro);color:var(--gs);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;padding:3px 10px;border-radius:2px;letter-spacing:1px;margin-top:8px;margin-bottom:.9rem}
+.hero-divider{height:4px;background:var(--oro)}
+
+.tabs{display:flex;background:var(--gs);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;position:sticky;top:0;z-index:10}
+.tabs::-webkit-scrollbar{display:none}
+.tab-lbl{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:11px;letter-spacing:1px;padding:0 13px;cursor:pointer;color:rgba(255,255,255,0.45);white-space:nowrap;border-bottom:3px solid transparent;text-transform:uppercase;height:44px;display:inline-flex;align-items:center;flex-shrink:0}
+
+.body{padding:.85rem;background:#e8ede8}
+.panel{display:none}
+
+.sec{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;color:#fff;letter-spacing:1.5px;text-transform:uppercase;padding:5px 10px 5px 11px;margin:1rem 0 .65rem;background:var(--vd);border-left:4px solid var(--oro);border-radius:0 4px 4px 0;display:flex;align-items:center;gap:7px}
+.sec:first-child{margin-top:0}
+
+.card{background:rgba(255,255,255,0.95);border:0.5px solid rgba(0,0,0,0.08);border-radius:8px;padding:.8rem .9rem;margin-bottom:.65rem;border-top:3px solid var(--vc)}
+
+.rule{font-size:13px;color:#111;line-height:1.65;margin-bottom:5px;padding-left:16px;position:relative}
+.rule::before{content:'';position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--oro)}
+.rule:last-child{margin-bottom:0}
+
+/* NOVITA badge — testo puro, no emoji problematica */
+.new{display:inline-block;background:#FFD700;color:#111;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.5px;padding:2px 7px;border-radius:3px;margin-left:6px;vertical-align:middle;white-space:nowrap;line-height:1.5}
+
+/* CHIP evidenziato per soldi importanti */
+.money{display:inline-block;background:#fef2f2;border:1px solid var(--ros);border-radius:3px;padding:1px 6px;font-weight:700;color:var(--ros);font-size:13px}
+
+.al{padding:8px 10px;font-size:12px;line-height:1.5;margin:7px 0 0;border-left:3px solid;border-radius:0 4px 4px 0}
+.aw{background:#fdf6e3;border-color:var(--oro);color:#7a5800}
+.ad{background:#fef2f2;border-color:var(--ros);color:#7f1d1d}
+.ag{background:#f0faf3;border-color:var(--vm);color:#14532d}
+
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:.85rem}
+.stat{background:var(--vd);border-radius:7px;padding:11px 6px;text-align:center;position:relative;overflow:hidden}
+.stat::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--oro)}
+.sv{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:700;color:var(--orc);line-height:1}
+.sl{font-size:10px;color:rgba(255,255,255,0.65);margin-top:2px;line-height:1.3}
+
+/* COUNTER SINGOLI/COPPIE */
+.counter{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
+.cnt{background:rgba(255,255,255,0.95);border-radius:7px;padding:9px 8px;text-align:center;border:0.5px solid rgba(0,0,0,0.08)}
+.cnt-val{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--vd);line-height:1}
+.cnt-lbl{font-size:10px;color:#777;margin-top:2px;text-transform:uppercase;letter-spacing:.5px;font-family:'Barlow Condensed',sans-serif;font-weight:600}
+
+.rosa{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:7px 0 .5rem}
+.ri{background:var(--gs);border-radius:7px;padding:11px 6px;text-align:center;border-bottom:3px solid var(--oro)}
+.rn{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:700;color:var(--orc);line-height:1}
+.rl{font-size:10px;color:rgba(255,255,255,0.65);margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}
+.tbl th{background:var(--gs);color:var(--orc);font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:6px;text-align:left}
+.tbl th:first-child{border-left:3px solid var(--oro)}
+.tbl td{padding:5px 6px;border-bottom:.5px solid rgba(0,0,0,0.06);color:#111;vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:nth-child(even) td{background:rgba(0,0,0,0.025)}
+.pos{color:#1a6b2e;font-weight:700;font-family:'Barlow Condensed',sans-serif;font-size:12px}
+.neg{color:var(--ros);font-weight:700;font-family:'Barlow Condensed',sans-serif;font-size:12px}
+.neu{color:#bbb;font-family:'Barlow Condensed',sans-serif;font-size:12px}
+
+.twin{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:.65rem}
+
+.bm-grid{display:grid;grid-template-columns:1fr 1fr}
+.bm-col{}
+.bm-row{display:flex;align-items:center;justify-content:space-between;padding:5px 6px;border-bottom:.5px solid rgba(0,0,0,0.05);gap:3px}
+.bm-row:last-child{border-bottom:none}
+.bm-row:nth-child(even){background:rgba(0,0,0,0.02)}
+.bm-label{flex:1;min-width:0;font-size:10.5px;line-height:1.3;color:#111;display:flex;align-items:center;flex-wrap:wrap;gap:3px}
+.bm-col:first-child .bm-row{border-right:.5px solid rgba(0,0,0,0.08)}
+.bm-head{background:var(--gs);color:var(--orc);font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:6px;border-left:3px solid var(--oro)}
+.bm-head-r{background:var(--gs);color:var(--orc);font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:6px}
+
+.cb{border-radius:7px;overflow:hidden;margin-bottom:9px;border:0.5px solid rgba(0,0,0,0.08)}
+.ch2{padding:9px 11px;display:flex;align-items:center;justify-content:space-between;gap:6px}
+.cn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#fff;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.cbody{background:rgba(255,255,255,0.95);padding:9px 11px}
+.cv .ch2{background:var(--vd);border-left:4px solid var(--orc)}
+.cblu .ch2{background:var(--blu);border-left:4px solid #7aabf0}
+.coro .ch2{background:#6b4a00;border-left:4px solid var(--orc)}
+.cpurp .ch2{background:#3b0764;border-left:4px solid #c084fc}
+
+/* ALBO ACCORDION */
+.albo-cb{border-radius:7px;overflow:hidden;margin-bottom:9px;border:0.5px solid rgba(0,0,0,0.08)}
+.acc-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#fff}
+
+.pt{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}
+.pt th{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:8px 10px;color:#fff;font-weight:600}
+.pt td{padding:7px 10px;border-bottom:.5px solid rgba(0,0,0,0.06);color:#111;font-size:12px;background:#fff}
+.pt tr:last-child td{border-bottom:none}
+.pt tr:nth-child(even) td{background:#f5f5f1}
+.tha{background:var(--vm)}.thb{background:var(--blu)}
+.ca{border-right:.5px solid rgba(0,0,0,0.08)}
+
+.ar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:.5px solid rgba(0,0,0,0.06)}
+.ar:last-child{border-bottom:none}
+.an{font-size:12.5px;color:#111}
+.at{font-size:11px;color:#999;font-style:italic}
+.ay{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--orc);background:var(--gs);padding:2px 7px;border-radius:3px;letter-spacing:1px;white-space:nowrap;flex-shrink:0}
+
+.premio-block{border-radius:8px;overflow:hidden;margin-bottom:9px;border:0.5px solid rgba(0,0,0,0.08)}
+.premio-head{padding:8px 11px;display:flex;align-items:center;justify-content:space-between}
+.phn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#fff}
+.premio-body{background:rgba(255,255,255,0.95);padding:4px 0}
+.pr{display:flex;align-items:center;justify-content:space-between;padding:7px 11px}
+.pr+.pr{border-top:.5px solid rgba(0,0,0,0.05)}
+.pc{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--gs);letter-spacing:.5px;text-transform:uppercase}
+.pp{font-size:10px;color:#aaa}
+.pv{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700}
+.pv-gold{color:var(--oro)}
+.pv-1{color:var(--orc);font-size:19px}
+.pv-2{color:#888}
+.pv-3{color:#a07850}
+.pv-fm{color:var(--vm);font-size:13px;text-align:right}
+
+.badge{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;letter-spacing:1px}
+.ba{background:rgba(255,255,255,0.18);color:#fff}
+.bb{background:rgba(255,255,255,0.18);color:#fff}
+.ball{background:var(--oro);color:var(--gs)}
+
+.chip{display:inline-flex;background:#fef2f2;border:.5px solid var(--ros);border-radius:3px;padding:4px 8px;font-size:11px;color:#7f1d1d;font-weight:500;margin:3px 2px}
+</style>
+</head>
+<body>
+
+<input type="radio" name="tabs" id="tab-basi" checked>
+<input type="radio" name="tabs" id="tab-parti">
+<input type="radio" name="tabs" id="tab-aste">
+<input type="radio" name="tabs" id="tab-punti">
+<input type="radio" name="tabs" id="tab-comp">
+<input type="radio" name="tabs" id="tab-regole">
+<input type="radio" name="tabs" id="tab-premi">
+<input type="radio" name="tabs" id="tab-albo">
+
+<div class="w wrap">
+
+<div class="hero">
+  <div class="hero-bg">
+    <svg width="100%" height="100%" viewBox="0 0 380 160" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <rect width="380" height="160" fill="#155724"/>
+      <rect x="10" y="10" width="360" height="140" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+      <line x1="190" y1="10" x2="190" y2="150" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+      <circle cx="190" cy="80" r="30" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+      <circle cx="190" cy="80" r="3" fill="rgba(255,255,255,0.25)"/>
+      <rect x="10" y="45" width="50" height="70" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+      <rect x="320" y="45" width="50" height="70" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+      <rect x="10" y="58" width="22" height="44" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+      <rect x="348" y="58" width="22" height="44" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+      <circle cx="10" cy="10" r="14" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+      <circle cx="370" cy="10" r="14" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+      <circle cx="10" cy="150" r="14" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+      <circle cx="370" cy="150" r="14" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+      <polygon points="295,60 302,74 317,74 305,83 309,97 295,88 281,97 285,83 273,74 288,74" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="1.2"/>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eye">Campionato del Bettolino</div>
+    <div class="hero-row">
+      <div>
+        <div class="hero-title">Fritti <span>Misti</span></div>
+        <div class="hero-sub">Lega Fantacalcio</div>
+        <div class="hero-pill">Stagione 2026 / 2027</div>
+      </div>
+      <div style="flex-shrink:0;align-self:flex-end">
+        <svg width="68" height="78" viewBox="0 0 80 90" xmlns="http://www.w3.org/2000/svg">
+          <rect x="15" y="4" width="50" height="64" rx="3" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
+          <rect x="20" y="4" width="40" height="8" fill="rgba(201,168,76,0.7)"/>
+          <path d="M15 68 L40 82 L65 68" fill="none" stroke="rgba(201,168,76,0.6)" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M40 82 L40 68" fill="none" stroke="rgba(201,168,76,0.4)" stroke-width="1.2"/>
+          <circle cx="40" cy="36" r="14" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"/>
+          <path d="M40 22 L43 31 L53 31 L45 37 L48 46 L40 40 L32 46 L35 37 L27 31 L37 31 Z" fill="rgba(201,168,76,0.55)" stroke="rgba(201,168,76,0.8)" stroke-width="0.8" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="hero-divider"></div>
+</div>
+
+<div class="tabs">
+  <label class="tab-lbl tl-basi" for="tab-basi">Le basi</label>
+  <label class="tab-lbl tl-parti" for="tab-parti">Squadre</label>
+  <label class="tab-lbl tl-aste" for="tab-aste">Aste</label>
+  <label class="tab-lbl tl-punti" for="tab-punti">Punteggi</label>
+  <label class="tab-lbl tl-comp" for="tab-comp">Competizioni</label>
+  <label class="tab-lbl tl-regole" for="tab-regole">Regole</label>
+  <label class="tab-lbl tl-premi" for="tab-premi">Premi</label>
+  <label class="tab-lbl tl-albo" for="tab-albo">Albo d&apos;oro</label>
+</div>
+
+<div class="body">
+
+<!-- LE BASI -->
+<div class="panel" id="p-basi">
+  <div class="stats">
+    <div class="stat"><div class="sv">20</div><div class="sl">Squadre totali</div></div>
+    <div class="stat"><div class="sv">600</div><div class="sl">Fantamilioni per asta</div></div>
+    <div class="stat"><div class="sv">70&#8364;</div><div class="sl">Quota singolo</div></div>
+    <div class="stat"><div class="sv">80&#8364;</div><div class="sl">Quota coppia</div></div>
+  </div>
+  <div class="sec">&#9917; Rosa obbligatoria</div>
+  <div class="rosa">
+    <div class="ri"><div class="rn">3</div><div class="rl">Portieri</div></div>
+    <div class="ri"><div class="rn">9</div><div class="rl">Difensori</div></div>
+    <div class="ri"><div class="rn">9</div><div class="rl">Centrocampisti</div></div>
+    <div class="ri"><div class="rn">6</div><div class="rl">Attaccanti</div></div>
+  </div>
+  <p style="font-size:12px;color:#555;margin:.5rem 0 .85rem">Prezzo di partenza uguale per tutti: <strong>1 credito</strong></p>
+  <div class="sec">&#128179; Quote iscrizione</div>
+  <div class="card">
+    <div class="rule">Singoli: 50&#8364; a settembre + 20&#8364; a febbraio</div>
+    <div class="rule">Coppie: 50&#8364; a settembre + 30&#8364; a febbraio</div>
+    <div class="rule">Le date delle aste vengono decise insieme e gestite da due persone esterne all&apos;asta</div>
+    <div class="rule">Per le coppie almeno uno dei due deve essere presente; in caso contrario delegare un sostituto estraneo alla lega</div>
+    <div class="al aw">Sforamento budget: ogni FM in pi&#249; = 1 punto di penalt&#224; (es. 605 FM = &#8722;5 pt)</div>
+  </div>
+</div>
+
+<!-- SQUADRE -->
+<div class="panel" id="p-parti">
+  <div class="sec">&#128101; Le 20 squadre</div>
+  <table class="pt" style="border:0.5px solid rgba(0,0,0,0.08);border-radius:8px;overflow:hidden">
+    <thead><tr><th class="tha ca" style="width:50%">Serie A</th><th class="thb" style="width:50%">Serie B</th></tr></thead>
+    <tbody>
+      <tr><td class="ca">Luca Cesti</td><td>Arlind Brovina</td></tr>
+      <tr><td class="ca">Zanantoni / Zeppieri</td><td>Matteo Rutali</td></tr>
+      <tr><td class="ca">Giorgio Barbieri / Gianni Russo</td><td>Giacomo Demaria</td></tr>
+      <tr><td class="ca">Tino Adiletta</td><td>Henry Kankam</td></tr>
+      <tr><td class="ca">Giacomo Novembre</td><td>Cantarello / Cambi</td></tr>
+      <tr><td class="ca">Federico Ferrari</td><td>Rudy Osey</td></tr>
+      <tr><td class="ca">Orsini / Calzolari</td><td>Ferraro / De Rosa</td></tr>
+      <tr><td class="ca">Vitiello / Iardino</td><td>Matteo Guglielmi</td></tr>
+      <tr><td class="ca">Mattia Andreotti</td><td>Gabriele Andreotti</td></tr>
+      <tr><td class="ca">Nicol&#242; Fornari</td><td>Meddi / Chiletti</td></tr>
+    </tbody>
+  </table>
+  <!-- Counter singoli/coppie — coppie = chi ha / nel nome -->
+  <div class="counter">
+    <div class="cnt">
+      <div class="cnt-val">13</div>
+      <div class="cnt-lbl">Singoli</div>
+    </div>
+    <div class="cnt">
+      <div class="cnt-val">7</div>
+      <div class="cnt-lbl">Coppie</div>
+    </div>
+  </div>
+  <div class="al ag" style="margin-top:9px">I <strong>primi 3 della Serie B</strong> salgono in Serie A &#183; gli <strong>ultimi 3 della Serie A</strong> retrocedono in Serie B</div>
+</div>
+
+<!-- ASTE -->
+<div class="panel" id="p-aste">
+  <!-- emoji busta chiusa &#128386; = lettera chiusa, usiamo SVG inline per sicurezza -->
+  <div class="sec">&#9993; Busta chiusa</div>
+  <div class="card">
+    <div class="rule">Le scelte restano segrete: ogni partecipante scrive il giocatore scelto su un biglietto consegnato solo al battitore d&apos;asta. Quando il giocatore viene chiamato, il partecipante annuncia a tutti che quel nome &#232; in busta chiusa</div>
+  </div>
+  <div class="sec">&#127807; Primavera</div>
+  <div class="card">
+    <div class="rule">Facoltativamente si pu&#242; riconfermare 1 giocatore per reparto Under 21</div>
+    <div class="rule">Se due partecipanti vogliono confermare lo stesso giocatore, fanno l&apos;asta esclusiva loro due</div>
+    <div class="rule">All&apos;asta di Settembre possiamo confermare massimo un 2004 che abbiamo acquistato l&apos;anno prima</div>
+  </div>
+  <div class="sec">&#10052; Mercato invernale</div>
+  <div class="card">
+    <div class="rule">+50 fantamilioni a testa, pi&#249; gli eventuali avanzi estivi</div>
+    <div class="rule">Giocatore ceduto all&apos;estero o in serie minore &#8594; quotazione attuale leghe fantagazzetta</div>
+    <div class="rule">Svincolo libero &#8212; i giocatori svincolati tornano nel listone con quotazione 1 (chi ha svincolato non pu&#242; riacquistare lo stesso giocatore) <span class="new">NOVITA&apos;</span></div>
+    <div class="rule">Partecipazione obbligatoria; delegare un sostituto estraneo se impossibilitati</div>
+    <div class="al ad">Assenza ingiustificata: penale <strong>30&#8364;</strong> aggiunta ai montepremi</div>
+  </div>
+  <div class="sec">&#8644; Scambi</div>
+  <div class="card">
+    <div class="rule">Scambi aperti dalla prima giornata fino all&apos;ultima <span class="new">NOVITA&apos;</span></div>
+    <div class="rule">Solo tra squadre dello stesso campionato (A&#8596;A &#183; B&#8596;B)</div>
+  </div>
+</div>
+
+<!-- PUNTEGGI -->
+<div class="panel" id="p-punti">
+  <div class="twin">
+    <div>
+      <div class="sec" style="margin-top:0;font-size:12px">&#9935; Scala goal</div>
+      <div class="card" style="padding:.55rem .6rem;margin-bottom:0">
+        <table class="tbl">
+          <thead><tr><th>Punti</th><th>Goal</th></tr></thead>
+          <tbody>
+            <tr><td>66</td><td>1</td></tr><tr><td>72</td><td>2</td></tr>
+            <tr><td>77</td><td>3</td></tr><tr><td>82</td><td>4</td></tr>
+            <tr><td>86</td><td>5</td></tr><tr><td>90</td><td>6</td></tr>
+            <tr><td>94</td><td>7</td></tr><tr><td>98</td><td>8</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <div class="sec" style="margin-top:0;font-size:12px">&#127941; Capitano</div>
+      <div class="card" style="padding:.55rem .6rem;margin-bottom:0">
+        <table class="tbl">
+          <thead><tr><th>Voto</th><th>Eff.</th></tr></thead>
+          <tbody>
+            <tr><td>&lt;4</td><td class="neg">&#8722;2</td></tr>
+            <tr><td>4.5</td><td class="neg">&#8722;1.5</td></tr>
+            <tr><td>5</td><td class="neg">&#8722;1</td></tr>
+            <tr><td>5.5</td><td class="neg">&#8722;0.5</td></tr>
+            <tr><td>6</td><td class="neu">0</td></tr>
+            <tr><td>6.5</td><td class="pos">+0.5</td></tr>
+            <tr><td>7</td><td class="pos">+1</td></tr>
+            <tr><td>7.5</td><td class="pos">+1.5</td></tr>
+            <tr><td>8+</td><td class="pos">+2</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="sec" style="font-size:12px">&#11088; Bonus &amp; Malus</div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <div class="bm-grid">
+      <div class="bm-col">
+        <div class="bm-head">Bonus</div>
+        <div class="bm-row"><span class="bm-label">Goal</span><span class="pos">+3</span></div>
+        <div class="bm-row"><span class="bm-label">Rigore parato</span><span class="pos">+3</span></div>
+        <div class="bm-row"><span class="bm-label">Assist Gold</span><span class="pos">+1.5</span></div>
+        <div class="bm-row"><span class="bm-label">Assist</span><span class="pos">+1</span></div>
+        <div class="bm-row"><span class="bm-label">Porta inviolata</span><span class="pos">+1</span></div>
+        <div class="bm-row"><span class="bm-label">Assist Soft</span><span class="pos">+0.5</span></div>
+        <div class="bm-row"><span class="bm-label">Contributo goal</span><span class="pos">+0.5</span></div>
+        <div class="bm-row"><span class="bm-label">Player match <span class="new" style="font-size:9px;padding:1px 4px">NOVITA&apos;</span></span><span class="pos">+0.5</span></div>
+        <div class="bm-row"><span class="bm-label">Fattore campo</span><span class="pos">+0.5</span></div>
+        <div class="bm-row"><span class="bm-label">Difesa a 4 media 6</span><span class="pos">+0.5</span></div>
+        <div class="bm-row"><span class="bm-label">Difesa a 4 media 6.5</span><span class="pos">+3</span></div>
+        <div class="bm-row"><span class="bm-label">Difesa a 4 media 7</span><span class="pos">+6</span></div>
+      </div>
+      <div class="bm-col">
+        <div class="bm-head-r">Malus</div>
+        <div class="bm-row"><span class="bm-label">Ammonizione</span><span class="neg">&#8722;0.5</span></div>
+        <div class="bm-row"><span class="bm-label">Espulsione</span><span class="neg">&#8722;1</span></div>
+        <div class="bm-row"><span class="bm-label">Goal subito</span><span class="neg">&#8722;1</span></div>
+        <div class="bm-row"><span class="bm-label">Autogoal</span><span class="neg">&#8722;2</span></div>
+        <div class="bm-row"><span class="bm-label">Difesa a 4 media 5.5</span><span class="neg">&#8722;1</span></div>
+        <div class="bm-row"><span class="bm-label">Difesa a 4 media 5</span><span class="neg">&#8722;2</span></div>
+        <div class="bm-row"><span class="bm-label">Difesa a 4 media 4.5</span><span class="neg">&#8722;3</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPETIZIONI -->
+<div class="panel" id="p-comp">
+  <div class="sec">&#127942; Competizioni</div>
+  <div class="cb cv">
+    <div class="ch2"><span class="cn">Champions League</span><span class="badge ba">Serie A</span></div>
+    <div class="cbody">
+      <div class="rule">2 gironi da 5 squadre, andata e ritorno (8 partite)</div>
+      <div class="rule">Prime 3 di ogni girone &#8594; quarti di finale direttamente</div>
+      <div class="rule">4&#176; e 5&#176; &#8594; spareggio andata/ritorno per le ultime 2 qualificate</div>
+    </div>
+  </div>
+  <div class="cb cblu">
+    <div class="ch2"><span class="cn">Europa League</span><span class="badge bb">Serie B</span></div>
+    <div class="cbody">
+      <div class="rule">2 gironi da 5 squadre, andata e ritorno (8 partite)</div>
+      <div class="rule">Prime 3 di ogni girone &#8594; quarti di finale direttamente</div>
+      <div class="rule">4&#176; e 5&#176; &#8594; spareggio andata/ritorno per le ultime 2 qualificate</div>
+    </div>
+  </div>
+  <div class="cb coro">
+    <div class="ch2"><span class="cn">Conference Cup</span><span class="badge ball">A + B</span></div>
+    <div class="cbody">
+      <div class="rule">Nessuno scontro diretto: vince chi accumula pi&#249; punti totali a fine stagione</div>
+      <div class="rule">I 2 vincitori (uno per lega) ricevono +20 FM per l&apos;asta successiva</div>
+    </div>
+  </div>
+  <div class="cb cpurp">
+    <div class="ch2">
+      <span class="cn">Super Lega <span class="new" style="font-size:9px;padding:1px 5px">NOVITA&apos;</span></span>
+      <span class="badge ball">Tutte 20</span>
+    </div>
+    <div class="cbody">
+      <div class="rule">Campionato unico: ogni squadra disputa 10 partite (5 in casa &#183; 5 in trasferta) con abbinamenti casuali</div>
+      <div class="rule">Fattore campo +0.5 sia nella fase a campionato che nella fase a eliminazione diretta</div>
+      <div class="rule">Le prime 16 si qualificano alla fase a eliminazione diretta (1&#170; vs 16&#170; &#183; 2&#170; vs 15&#170; e cos&#236; via)</div>
+      <div class="rule">Fase a eliminazione diretta: andata e ritorno per tutti i turni fino alla finale</div>
+    </div>
+  </div>
+</div>
+
+<!-- REGOLE -->
+<div class="panel" id="p-regole">
+  <div class="sec">&#128203; Regole di gioco</div>
+  <div class="card">
+    <div style="font-size:11px;font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--vm);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Partite rinviate</div>
+    <div class="rule">Serie A e B: si aspetta il recupero prima di calcolare i punteggi</div>
+    <div class="rule">Coppe: viene assegnato il 6 politico, salvo recupero prima della giornata successiva di coppa</div>
+  </div>
+  <div class="card">
+    <div style="font-size:11px;font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--vm);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Formazione dimenticata</div>
+    <div class="rule">Dalla terza volta in poi: multa di <span class="money">5&#8364;</span> ogni giornata dimenticata</div>
+    <div class="rule">Forza maggiore (no internet / app rotta): contatta un admin per farsi inserire la formazione</div>
+  </div>
+  <div class="card">
+    <div style="font-size:11px;font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--vm);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Paga o penale</div>
+    <div class="rule">Portare i soldi il giorno dell&apos;asta (settembre e febbraio)</div>
+    <div class="rule">In ritardo: tempo fino al 21 del mese, poi &#8722;2 punti per ogni giornata</div>
+    <div class="rule">Penali di fine anno: 15 giorni di tempo, poi +10&#8364; ogni settimana di ritardo</div>
+  </div>
+  <div class="card">
+    <div style="font-size:11px;font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--vm);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Regola &#171;Banjo&#187;</div>
+    <div class="rule">Parte 1: quota da portare il giorno dell&apos;asta; ritardo &#8594; &#8722;2 pt/giornata fino al pagamento</div>
+    <div class="rule">Parte 2: la squadra col punteggio totale pi&#249; basso (A e B) paga una penale di <span class="money">20&#8364;</span></div>
+  </div>
+  <div class="card">
+    <div style="font-size:11px;font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--vm);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Promozione &amp; Retrocessione</div>
+    <div class="rule">I primi 3 della Serie B salgono in Serie A &#183; gli ultimi 3 della Serie A retrocedono</div>
+    <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px">
+      <span class="chip">Ultimo: 30&#8364;</span><span class="chip">Penultimo: 20&#8364;</span><span class="chip">Terzultimo: 10&#8364;</span>
+    </div>
+    <p style="font-size:11px;color:#bbb;margin-top:6px">Penali uguali per Serie A e Serie B</p>
+  </div>
+  <div class="card">
+    <div style="font-size:11px;font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--vm);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Switch &amp; FantaBuzzer</div>
+    <div class="rule">Regola dello Switch: Switch Plus &amp; Cambio Modulo &#8212; vedi video sul gruppo Bacheca Fantacalcio</div>
+    <div class="rule">FantaBuzzer: propriet&#224; collettiva al 5% per squadra &#183; chi rompe paga</div>
+    <div class="rule">Noleggio FantaBuzzer: 20&#8364; per asta &#8594; fondi destinati ai montepremi futuri</div>
+  </div>
+</div>
+
+<!-- PREMI -->
+<div class="panel" id="p-premi">
+  <div class="sec">&#127873; Premi 2026 / 2027</div>
+  <div class="premio-block cv">
+    <div class="premio-head" style="background:var(--vd);border-left:4px solid var(--orc)"><span class="phn">Campionato Serie A</span><span class="badge ba">Serie A</span></div>
+    <div class="premio-body">
+      <div class="pr"><div><div class="pc">1&#176; Classificato</div><div class="pp">Campione</div></div><div class="pv pv-1">300&#8364;</div></div>
+      <div class="pr"><div><div class="pc">2&#176; Classificato</div></div><div class="pv pv-2">200&#8364;</div></div>
+      <div class="pr"><div><div class="pc">3&#176; Classificato</div></div><div class="pv pv-3">160&#8364;</div></div>
+    </div>
+  </div>
+  <div class="premio-block cblu">
+    <div class="premio-head" style="background:var(--blu);border-left:4px solid #7aabf0"><span class="phn">Campionato Serie B</span><span class="badge bb">Serie B</span></div>
+    <div class="premio-body">
+      <div class="pr"><div><div class="pc">1&#176; Classificato</div><div class="pp">Campione</div></div><div class="pv pv-1">230&#8364;</div></div>
+      <div class="pr"><div><div class="pc">2&#176; Classificato</div></div><div class="pv pv-2">180&#8364;</div></div>
+      <div class="pr"><div><div class="pc">3&#176; Classificato</div></div><div class="pv pv-3">120&#8364;</div></div>
+    </div>
+  </div>
+  <div class="premio-block cpurp">
+    <div class="premio-head" style="background:#3b0764;border-left:4px solid #c084fc"><span class="phn">Super Lega</span><span class="badge ball">Tutte 20</span></div>
+    <div class="premio-body">
+      <div class="pr"><div><div class="pc">Vincitore</div></div><div class="pv pv-gold">150&#8364;</div></div>
+    </div>
+  </div>
+  <div class="premio-block cv">
+    <div class="premio-head" style="background:var(--vd);border-left:4px solid var(--orc)"><span class="phn">Champions League</span><span class="badge ba">Serie A</span></div>
+    <div class="premio-body">
+      <div class="pr"><div><div class="pc">Vincitore</div></div><div class="pv pv-gold">120&#8364;</div></div>
+    </div>
+  </div>
+  <div class="premio-block cblu">
+    <div class="premio-head" style="background:var(--blu);border-left:4px solid #7aabf0"><span class="phn">Europa League</span><span class="badge bb">Serie B</span></div>
+    <div class="premio-body">
+      <div class="pr"><div><div class="pc">Vincitore</div></div><div class="pv pv-gold">100&#8364;</div></div>
+    </div>
+  </div>
+  <div class="premio-block coro">
+    <div class="premio-head" style="background:#6b4a00;border-left:4px solid var(--orc)"><span class="phn">Conference Cup</span><span class="badge ball">A + B</span></div>
+    <div class="premio-body">
+      <div class="pr"><div><div class="pc">1&#176; Serie A</div></div><div class="pv pv-fm">+20 FM<br><span style="font-size:10px;color:#aaa">asta successiva</span></div></div>
+      <div class="pr"><div><div class="pc">1&#176; Serie B</div></div><div class="pv pv-fm">+20 FM<br><span style="font-size:10px;color:#aaa">asta successiva</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ALBO D'ORO -->
+<div class="panel" id="p-albo">
+  <div class="sec">&#127942; Albo d&apos;oro</div>
+
+  <!-- Campionato singolo -->
+  <div class="albo-cb">
+    <input type="checkbox" class="acc-cb" id="acc-singolo">
+    <label class="acc-head" for="acc-singolo" style="background:var(--gs);border-left:4px solid var(--oro)">
+      <span class="acc-title">Campionato singolo 2014&#8211;2022</span>
+      <span class="acc-arrow">&#9654;</span>
+    </label>
+    <div class="acc-body">
+      <div class="ar"><div><div class="an">Nicolas Covili</div><div class="at">JuveNik</div></div><span class="ay">14/15</span></div>
+      <div class="ar"><div><div class="an">Nicolas Covili</div><div class="at">VenomSnake</div></div><span class="ay">15/16</span></div>
+      <div class="ar"><div><div class="an">Mattia Andreotti</div><div class="at">Cadrega FC</div></div><span class="ay">16/17</span></div>
+      <div class="ar"><div><div class="an">Giorgio Barbieri</div><div class="at">Lecco Benfiga</div></div><span class="ay">17/18</span></div>
+      <div class="ar"><div><div class="an">Tino Adiletta</div><div class="at">Ultras Salerno</div></div><span class="ay">18/19</span></div>
+      <div class="ar"><div><div class="an" style="color:#ccc;font-style:italic">Annullato &#183; Covid-19</div></div><span class="ay">19/20</span></div>
+      <div class="ar"><div><div class="an">Matteo Ferraro</div><div class="at">Real-Sindacash</div></div><span class="ay">20/21</span></div>
+      <div class="ar"><div><div class="an">Nicolas Covili</div><div class="at">Real Birra</div></div><span class="ay">21/22</span></div>
+    </div>
+  </div>
+
+  <!-- Serie A -->
+  <div class="albo-cb">
+    <input type="checkbox" class="acc-cb" id="acc-sa">
+    <label class="acc-head" for="acc-sa" style="background:var(--vm);border-left:4px solid var(--orc)">
+      <span class="acc-title">Campionato Serie A</span>
+      <span class="acc-arrow">&#9654;</span>
+    </label>
+    <div class="acc-body">
+      <div class="ar"><div><div class="an">Tino Adiletta <span style="color:#ccc;font-size:10px">&#183; M. Andreotti &#183; L. Cesti</span></div><div class="at">Ultras Salerno</div></div><span class="ay">22/23</span></div>
+      <div class="ar"><div><div class="an">G. Novembre <span style="color:#ccc;font-size:10px">&#183; M. Guglielmi &#183; F. Ferrari</span></div><div class="at">U.S. Ticchiu</div></div><span class="ay">23/24</span></div>
+      <div class="ar"><div><div class="an">Ferraro &amp; De Rosa <span style="color:#ccc;font-size:10px">&#183; M. Guglielmi &#183; F. Ferrari</span></div><div class="at">I Milanesi</div></div><span class="ay">24/25</span></div>
+      <div class="ar"><div><div class="an">Federico Ferrari <span style="color:#ccc;font-size:10px">&#183; T. Adiletta &#183; Calzolari &amp; Orsini</span></div><div class="at">AL Ippicah</div></div><span class="ay">25/26</span></div>
+    </div>
+  </div>
+
+  <!-- Serie B -->
+  <div class="albo-cb">
+    <input type="checkbox" class="acc-cb" id="acc-sb">
+    <label class="acc-head" for="acc-sb" style="background:var(--blu);border-left:4px solid #7aabf0">
+      <span class="acc-title">Campionato Serie B</span>
+      <span class="acc-arrow">&#9654;</span>
+    </label>
+    <div class="acc-body">
+      <div class="ar"><div><div class="an">Giorgio Barbieri <span style="color:#ccc;font-size:10px">&#183; R. Osey &#183; G. Russo</span></div><div class="at">Lecco Benfiga</div></div><span class="ay">22/23</span></div>
+      <div class="ar"><div><div class="an">Iardino &amp; Vitiello <span style="color:#ccc;font-size:10px">&#183; Cantarello &#183; Ferraro &amp; Rosa</span></div><div class="at">Friskisk</div></div><span class="ay">23/24</span></div>
+      <div class="ar"><div><div class="an">Zanantoni &amp; Zeppieri <span style="color:#ccc;font-size:10px">&#183; Calzolari &amp; Orsini &#183; Banjo</span></div><div class="at">Squad Cozzo</div></div><span class="ay">24/25</span></div>
+      <div class="ar"><div><div class="an">Vitiello &amp; Iardino <span style="color:#ccc;font-size:10px">&#183; M. Andreotti &#183; N. Fornari</span></div><div class="at">Friskisk</div></div><span class="ay">25/26</span></div>
+    </div>
+  </div>
+
+  <!-- Champions -->
+  <div class="albo-cb">
+    <input type="checkbox" class="acc-cb" id="acc-cl">
+    <label class="acc-head" for="acc-cl" style="background:var(--vd);border-left:4px solid var(--orc)">
+      <span class="acc-title">Champions League</span>
+      <span class="acc-arrow">&#9654;</span>
+    </label>
+    <div class="acc-body">
+      <div class="ar"><div class="an">Tino Adiletta &#8211; Ultras Salerno</div><span class="ay">22/23</span></div>
+      <div class="ar"><div class="an">Giorgio Barbieri &#8211; Lecco Benfiga</div><span class="ay">23/24</span></div>
+      <div class="ar"><div class="an">Giorgio Barbieri &#8211; Lecco Benfiga</div><span class="ay">24/25</span></div>
+      <div class="ar"><div class="an">Tino Adiletta &#8211; Ultras Salerno</div><span class="ay">25/26</span></div>
+    </div>
+  </div>
+
+  <!-- Europa League -->
+  <div class="albo-cb">
+    <input type="checkbox" class="acc-cb" id="acc-el">
+    <label class="acc-head" for="acc-el" style="background:var(--blu);border-left:4px solid #7aabf0">
+      <span class="acc-title">Europa League</span>
+      <span class="acc-arrow">&#9654;</span>
+    </label>
+    <div class="acc-body">
+      <div class="ar"><div class="an">Davide Orsini &#8211; Sampdor</div><span class="ay">22/23</span></div>
+      <div class="ar"><div class="an">Davide Orsini &#8211; Sampdor</div><span class="ay">23/24</span></div>
+      <div class="ar"><div class="an">G. Andreotti &#8211; ReAldoBaglio</div><span class="ay">24/25</span></div>
+      <div class="ar"><div class="an">Meddi &amp; Chiletti &#8211; Gamabusta</div><span class="ay">25/26</span></div>
+    </div>
+  </div>
+
+  <!-- Super Lega -->
+  <div class="albo-cb">
+    <input type="checkbox" class="acc-cb" id="acc-sl">
+    <label class="acc-head" for="acc-sl" style="background:#3b0764;border-left:4px solid #c084fc">
+      <span class="acc-title">Super Lega <span class="new" style="font-size:9px;padding:1px 5px">NOVITA&apos;</span></span>
+      <span class="acc-arrow">&#9654;</span>
+    </label>
+    <div class="acc-body">
+      <p style="font-size:12px;color:#aaa;font-style:italic;padding:4px 0">Prima edizione: 2026/2027</p>
+    </div>
+  </div>
+
+  <!-- Coppa Italia -->
+  <div class="albo-cb">
+    <input type="checkbox" class="acc-cb" id="acc-ci">
+    <label class="acc-head" for="acc-ci" style="background:var(--ros);border-left:4px solid #ff9999">
+      <span class="acc-title">Coppa Italia</span>
+      <span class="acc-arrow">&#9654;</span>
+    </label>
+    <div class="acc-body">
+      <div class="ar"><div class="an">Gianni Russo &#8211; FC Lecce 167</div><span class="ay">22/23</span></div>
+      <div class="ar"><div class="an">G. Novembre &#8211; U.S. Ticchiu</div><span class="ay">23/24</span></div>
+      <div class="ar"><div class="an">Rudy Osey &#8211; BLK Airlines</div><span class="ay">24/25</span></div>
+      <div class="ar"><div class="an">Arlind Brovina</div><span class="ay">25/26</span></div>
+    </div>
+  </div>
+
+  <!-- Conference Cup -->
+  <div class="albo-cb">
+    <input type="checkbox" class="acc-cb" id="acc-cc">
+    <label class="acc-head" for="acc-cc" style="background:#6b4a00;border-left:4px solid var(--orc)">
+      <span class="acc-title">Conference Cup</span>
+      <span class="acc-arrow">&#9654;</span>
+    </label>
+    <div class="acc-body">
+      <div class="ar"><div><div class="an">A: Tino Adiletta</div><div class="an">B: Gianni Russo</div></div><span class="ay">22/23</span></div>
+      <div class="ar"><div><div class="an">A: Russo &amp; Meddi</div><div class="an">B: Ferraro &amp; Rosa</div></div><span class="ay">23/24</span></div>
+      <div class="ar"><div><div class="an">A: Matteo Guglielmi</div><div class="an">B: Zanantoni &amp; Zeppieri</div></div><span class="ay">24/25</span></div>
+      <div class="ar"><div><div class="an">A: Federico Ferrari</div><div class="an">B: Meddi &amp; Chiletti</div></div><span class="ay">25/26</span></div>
+    </div>
+  </div>
+
+</div>
+
+</div><!-- body -->
+</div><!-- wrap -->
+</body>
+</html>
